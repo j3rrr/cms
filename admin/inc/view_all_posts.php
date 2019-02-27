@@ -8,7 +8,7 @@
             <th>Author</th>
             <th>Date</th>
             <th>Tags</th>
-            <th>Cat ID</th>
+            <th>Category</th>
             <th>Comments</th>
             <th>Image</th>
             <th class="text-center">Status</th>

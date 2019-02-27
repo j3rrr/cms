@@ -98,8 +98,20 @@ function showAllPosts()
         <td>{$post_title}</td>
         <td>{$post_author}</td>
         <td>{$post_date}</td>
-        <td>{$post_tag}</td>
-        <td>{$post_category_id}</td>
+        <td>{$post_tag}</td>";
+
+        $query_cat = "SELECT * FROM categories WHERE cat_id LIKE {$post_category_id}";
+        $select_categories = mysqli_query($connection, $query_cat);
+
+        while ($row = mysqli_fetch_assoc($select_categories)) {
+            $cat_id = $row['cat_id'];
+            $cat_title = $row['cat_title'];
+        }
+
+        queryFailed($select_categories);
+
+        echo "
+        <td>{$cat_title}</td>
         <td>{$post_comment_count}</td>
         <td><img width='100px' src='../img/{$post_image}'></td>
         <td class='text-center'><span  class='label {$status_class}'>{$post_status}</span></td>
@@ -156,7 +168,6 @@ function deletePost()
 function getPostData()
 {
     global $connection;
-
     if (isset($_GET['p_id'])) {
         $edit_post_id = $_GET['p_id'];
 
@@ -217,7 +228,7 @@ function submitEditPost()
     $query .= "WHERE post_id = {$post_id} ";
 
     $edit_post = mysqli_query($connection, $query);
-    header("Location: posts.php?source=edit_post&p_id=$post_id");
+    header("Location: posts.php?source=edit_post&p_id=$post_id&update=s");
 
     queryFailed($edit_post);
 }

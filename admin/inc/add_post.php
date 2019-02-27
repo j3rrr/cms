@@ -9,7 +9,22 @@
     </div>
     <div class="form-group">
         <label for="post_category_id">Category</label>
-        <input class="form-control" type="text" name="post_category_id">
+        <select name="post_category_id" class="form-control">
+            <?php
+                $query = "SELECT * FROM categories";
+                $select_categories = mysqli_query($connection, $query);
+
+                while ($row = mysqli_fetch_assoc($select_categories)) {
+                    $cat_id = $row['cat_id'];
+                    $cat_title = $row['cat_title'];
+
+                    echo "<option value='{$cat_id}'>{$cat_title}</option>";
+                }
+
+                queryFailed($select_categories);
+
+            ?>
+        </select>
     </div>
     <div class="form-group">
         <label for="post_author">Author</label>
@@ -32,8 +47,7 @@
     </div>
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea class="form-control " name="post_content" id="" cols="30" rows="10">
-         </textarea>
+        <textarea class="form-control " name="post_content" id="" cols="30" rows="10"></textarea>
     </div>
     <div class="form-group">
         <input class="btn btn-primary" type="submit" name="add_post" value="Add Post">
