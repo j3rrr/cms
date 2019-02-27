@@ -1,5 +1,4 @@
 <?php
-    include "inc/db.php";
     include "inc/header.php";
 ?>
 
@@ -11,6 +10,8 @@
     <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
+
+
             <?php
 
                 $query = "SELECT * FROM posts";
@@ -37,9 +38,9 @@
 
             <!-- Blog Post -->
             <h2>
-                <a href="#"><?php echo $post_title; ?></a>
+                <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
             </h2>
-            <p class="lead">
+            <p class=" lead">
                 by <a href="index.php"><?php echo $post_author; ?></a>
             </p>
             <p>
@@ -47,11 +48,12 @@
 
             </p>
             <hr />
-            <img class="img-responsive" src="img/<?php echo $post_image; ?>" alt="" />
+            <a href="post.php?p_id=<?php echo $post_id; ?>">
+                <img class="img-responsive" src="img/<?php echo $post_image; ?>" alt="" />
+            </a>
             <hr />
             <p>
-                <?php echo $post_content; ?>
-
+                <?php excerpt($post_content, 160);?>
             </p>
             <a class="btn btn-primary" href="#">Read More
                 <span class="glyphicon glyphicon-chevron-right"></span></a>

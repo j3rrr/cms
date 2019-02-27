@@ -53,12 +53,12 @@
                 <a href="categories.php"><i class="fa fa-fw fa-tags"></i> Categories</a>
             </li>
             <li>
-                <a href="index.html"><i class="fa fa-fw fa-comments"></i> Comments</a>
+                <a href="comments.php"><i class="fa fa-fw fa-comments"></i> Comments</a>
             </li>
             <li>
-                <a href="javascript:;" data-toggle="collapse" data-target="#posts"><i class="fa fa-fw fa-users"></i>
+                <a href="javascript:;" data-toggle="collapse" data-target="#users"><i class="fa fa-fw fa-users"></i>
                     Users <i class="fa fa-fw fa-caret-down"></i></a>
-                <ul id="posts" class="collapse">
+                <ul id="users" class="collapse">
                     <li>
                         <a href="#">View all</a>
                     </li>

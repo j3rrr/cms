@@ -2,6 +2,7 @@
     addPost();
 ?>
 
+<p><a class="btn btn-primary" href="posts.php" role="button">Back</a></p>
 <form action="" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="post_title">Title</label>

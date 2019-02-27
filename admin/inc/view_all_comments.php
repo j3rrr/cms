@@ -1,26 +1,29 @@
-<p><a class="btn btn-primary" href="posts.php?source=add_post" role="button">Add Post</a></p>
+<p><a class="btn btn-primary" href="comments.php?source=add_comment" role="button">Add Comment</a></p>
 
 <table class="table table-hover table-striped">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Title</th>
+            <th>On Post</th>
+            <th>Comment</th>
             <th>Author</th>
+            <th>Email</th>
             <th>Date</th>
-            <th>Tags</th>
-            <th>Category</th>
-            <th>Comments</th>
-            <th>Image</th>
             <th class="text-center">Status</th>
+            <th></th>
+            <th></th>
             <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         <?php
-            showAllPosts();
+            showAllComments();
         ?>
     </tbody>
 </table>
 
-<?php deletePost();?>
+<?php
+    deleteComment();
+updateCommentStatus();
+?>

@@ -6,7 +6,15 @@ function queryFailed($var)
     if (!$var) {
         die('QUERY FAILED' . mysqli_error($connection));
     }
+}
 
+function excerpt($string, $len)
+{
+    if (strlen($string) > $len) {
+        echo substr($string, 0, $len) . " ...";
+    } else {
+        echo $string;
+    }
 }
 
 /**
@@ -231,4 +239,168 @@ function submitEditPost()
     header("Location: posts.php?source=edit_post&p_id=$post_id&update=s");
 
     queryFailed($edit_post);
+}
+
+/**
+ * COMMENT Functions
+ */
+function showAllComments()
+{
+    global $connection;
+    $query = "SELECT * FROM comments";
+    $select_comments = mysqli_query($connection, $query);
+
+    while ($row = mysqli_fetch_assoc($select_comments)) {
+        $comment_id = $row['comment_id'];
+        $comment_post_id = $row['comment_post_id'];
+        $comment_author = $row['comment_author'];
+        $comment_date = $row['comment_date'];
+        $comment_email = $row['comment_email'];
+        $comment_content = $row['comment_content'];
+        $comment_status = $row['comment_status'];
+
+        if ($comment_status == "approved") {
+            $status_class = "label-success";
+        } else {
+            $status_class = "label-warning";
+        }
+
+        echo "<tr>
+            <td>{$comment_id}</td>";
+
+        $query_post = "SELECT * FROM posts WHERE post_id LIKE {$comment_post_id}";
+        $select_post = mysqli_query($connection, $query_post);
+
+        while ($row = mysqli_fetch_assoc($select_post)) {
+            $post_id = $row['post_id'];
+            $post_title = $row['post_title'];
+        }
+        queryFailed($select_post);
+
+        echo "
+            <td>";
+        excerpt($post_title, 15);
+        echo "</td>
+            <td>";
+        excerpt($comment_content, 15);
+        echo "</td>
+            <td>{$comment_author}</td>
+            <td>{$comment_email}</td>
+            <td>{$comment_date}</td>
+            <td class='text-center'><span class='label {$status_class}'>{$comment_status}</span></td>
+            <td class='text-center'><a href='comments.php?c_id={$comment_id}&c_status=appr'><i class='fa fa-check' aria-hidden='true'></i></a></td>
+            <td class='text-center'><a href='comments.php?c_id={$comment_id}&c_status=unappr'><i class='fa fa-ban' aria-hidden='true'></i></a></td>
+            <td class='text-center'><a href='comments.php?source=edit_comment&c_id={$comment_id}'><i class='fa fa-edit' aria-hidden='true'></i></a></td>
+            <td class='text-center'><a href='comments.php?delete={$comment_id}'><i class='fa fa-trash' aria-hidden='true'></i></a></td>
+            </tr>";
+
+    }
+}
+
+function addComment()
+{
+    global $connection;
+
+    if (isset($_POST['add_comment'])) {
+        $comment_post_id = $_POST['comment_post_id'];
+        $comment_author = $_POST['comment_author'];
+        $comment_date = date('d-m-y');
+        $comment_email = $_POST['comment_email'];
+        $comment_content = $_POST['comment_content'];
+        $comment_status = $_POST['comment_status'];
+
+        $query = "INSERT INTO comments(comment_post_id,comment_author,comment_email,comment_content,comment_status,comment_date) ";
+        $query .= "VALUES({$comment_post_id},'{$comment_author}','{$comment_email}','{$comment_content}','{$comment_status}',now()) ";
+
+        $add_comment_query = mysqli_query($connection, $query);
+        if ($add_comment_query) {
+            echo "<div class='alert alert-success'>Successfully added Comment</div>";
+        }
+        queryFailed($add_comment_query);
+
+    }
+}
+
+function deleteComment()
+{
+    global $connection;
+    if (isset($_GET['delete'])) {
+        $del_comment_id = $_GET['delete'];
+        $query = "DELETE FROM comments WHERE comment_id LIKE {$del_comment_id}";
+        $delete_query = mysqli_query($connection, $query);
+        header("Location: comments.php");
+
+    }
+}
+
+function updateCommentStatus()
+{
+    global $connection;
+
+    if (isset($_GET['c_status'])) {
+        $comment_id = $_GET['c_id'];
+        if ($_GET['c_status'] == "appr") {
+            $get_new_status = "approved";
+        } elseif ($_GET['c_status'] == "unappr") {
+            $get_new_status = "unapproved";
+        }
+        $query = "UPDATE comments SET comment_status = '{$get_new_status}' WHERE comment_id = {$comment_id}";
+        $update_query = mysqli_query($connection, $query);
+        queryFailed($update_query);
+        header("Location: comments.php");
+
+    }
+
+}
+
+function getCommentData()
+{
+    global $connection;
+    if (isset($_GET['c_id'])) {
+        $edit_comment_id = $_GET['c_id'];
+
+        $query = "SELECT * FROM comments WHERE comment_id LIKE {$edit_comment_id}";
+        $select_comment_by_id = mysqli_query($connection, $query);
+
+        $row = mysqli_fetch_assoc($select_comment_by_id);
+        $comment_info = array(
+            'comment_id' => $row['comment_id'],
+            'comment_author' => $row['comment_author'],
+            'comment_email' => $row['comment_email'],
+            'comment_post_id' => $row['comment_post_id'],
+            'comment_date' => $row['comment_date'],
+            'comment_status' => $row['comment_status'],
+            'comment_content' => $row['comment_content'],
+        );
+
+        return $comment_info;
+    }
+}
+
+function submitEditComment()
+{
+    global $connection;
+    $comment_author = $_POST['comment_author'];
+    $comment_email = $_POST['comment_email'];
+    $comment_post_id = $_POST['comment_post_id'];
+    $comment_status = $_POST['comment_status'];
+    $comment_content = $_POST['comment_content'];
+    $comment_id = $_GET['c_id'];
+
+    $query = "UPDATE comments SET ";
+    $query .= "comment_author  = '{$comment_author}', ";
+    $query .= "comment_email  = '{$comment_email}', ";
+    $query .= "comment_post_id  = '{$comment_post_id}', ";
+    $query .= "comment_status  = '{$comment_status}', ";
+    $query .= "comment_content  = '{$comment_content}', ";
+    $query .= "comment_date  = now() ";
+    $query .= "WHERE comment_id = {$comment_id} ";
+
+    $edit_comment = mysqli_query($connection, $query);
+    header("Location: comments.php?source=edit_comment&c_id=$comment_id&update=s");
+    if (!$edit_comment) {
+        echo $query;
+    }
+
+    queryFailed($edit_comment);
 }

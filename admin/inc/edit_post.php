@@ -1,10 +1,6 @@
 <?php
 
-    $post_info = getPostData();
-
-    if (isset($_GET['p_id'])) {
-        $edit_post_id = $_GET['p_id'];
-    }
+    $post_data = getPostData();
 
     if (isset($_POST['edit_post'])) {
         submitEditPost();
@@ -19,10 +15,11 @@
 ?>
 
 
-<form action="posts.php?source=edit_post&p_id=<?php echo $edit_post_id ?>" method="post" enctype="multipart/form-data">
+<form action="posts.php?source=edit_post&p_id=<?php echo $post_data['post_id'] ?>" method="post"
+    enctype="multipart/form-data">
     <div class="form-group">
         <label for="post_title">Title</label>
-        <input value="<?php echo $post_info['post_title']; ?>" class="form-control" type="text" name="post_title">
+        <input value="<?php echo $post_data['post_title']; ?>" class="form-control" type="text" name="post_title">
     </div>
     <div class="form-group">
         <label for="post_category_id">Category</label>
@@ -47,7 +44,7 @@
     </div>
     <div class="form-group">
         <label for="post_author">Author</label>
-        <input value="<?php echo $post_info['post_author']; ?>" value="" class="form-control" type="text"
+        <input value="<?php echo $post_data['post_author']; ?>" value="" class="form-control" type="text"
             name="post_author">
     </div>
     <div class="form-group">
@@ -58,18 +55,18 @@
         </select>
     </div>
     <div class="form-group">
-        <img width="100px" src="../img/<?php echo $post_info['post_image']; ?>">
+        <img width="100px" src="../img/<?php echo $post_data['post_image']; ?>">
         <label for="post_image">Post Image</label>
         <input type="file" name="post_image">
     </div>
     <div class="form-group">
         <label for="post_tag">Post Tags</label>
-        <input value="<?php echo $post_info['post_tag']; ?>" value="" type="text" class="form-control" name="post_tag">
+        <input value="<?php echo $post_data['post_tag']; ?>" value="" type="text" class="form-control" name="post_tag">
     </div>
     <div class="form-group">
         <label for="post_content">Post Content</label>
         <textarea class="form-control " name="post_content" id="" cols="30"
-            rows="10"><?php echo $post_info['post_content']; ?></textarea>
+            rows="10"><?php echo $post_data['post_content']; ?></textarea>
     </div>
     <div class="form-group">
         <input class="btn btn-primary" type="submit" name="edit_post" value="Edit Post">

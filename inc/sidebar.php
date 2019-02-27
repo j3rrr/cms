@@ -1,3 +1,6 @@
+<?php
+    $cat_data = getCategories();
+?>
 <div class="col-md-4">
 
     <!-- Blog Search Well -->
@@ -24,18 +27,14 @@
                 <ul class="list-unstyled">
 
                     <?php
-                        // $query = "SELECT * FROM categories LIMIT 3 ";
-                        $query = "SELECT * FROM categories";
-                        $select_categories_sidebar_query = mysqli_query($connection, $query);
-
-                        while ($row = mysqli_fetch_assoc($select_categories_sidebar_query)) {
-                            $cat_title = $row['cat_title'];
-
-                            echo "<li><a href='#'>{$cat_title}</a></li>";
+                        foreach ($cat_data as $key => $val) {
+                            echo "<li><a href='category.php?c_id={$val['cat_id']}'>{$val['cat_title']}</a></li>";
                         }
                     ?>
 
                 </ul>
+
+
             </div>
             <!-- /.col-lg-6 -->
         </div>

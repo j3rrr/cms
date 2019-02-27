@@ -1,6 +1,6 @@
 <?php
     include "inc/header.php";
-    $post_data = getPostData();
+    $post_data = getPostDataByCatID();
 ?>
 
 <!-- Navigation -->
@@ -12,28 +12,29 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
+            <?php foreach ($post_data as $key => $val) {?>
+
             <!-- Blog Post -->
             <h2>
-                <a href="#"><?php echo $post_data['post_title']; ?></a>
+                <a href="#"><?php echo $val['post_title']; ?></a>
             </h2>
             <p class="lead">
-                by <a href="index.php"><?php echo $post_data['post_author']; ?></a>
+                by <a href="index.php"><?php echo $val['post_author']; ?></a>
             </p>
             <p>
-                <span class="glyphicon glyphicon-time"></span> <?php echo $post_data['post_date']; ?>
-
+                <span class="glyphicon glyphicon-time"></span> <?php echo $val['post_date']; ?>
             </p>
             <hr />
-            <img class="img-responsive" src="img/<?php echo $post_data['post_image']; ?>" alt="" />
+            <img class="img-responsive" src="img/<?php echo $val['post_image']; ?>" alt="" />
             <hr />
             <p>
-                <?php echo $post_data['post_content']; ?>
-
+                <?php excerpt($val['post_content'], 160);?>
             </p>
-            <a class="btn btn-primary" href="#">Read More
-                <span class="glyphicon glyphicon-chevron-right"></span></a>
-
+            <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
             <hr />
+
+            <?php }?>
+
             <!-- Blog Comments -->
 
             <!-- Comments Form -->
