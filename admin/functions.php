@@ -278,9 +278,9 @@ function showAllComments()
         queryFailed($select_post);
 
         echo "
-            <td>";
+            <td><a href='posts.php?source=edit_post&p_id={$post_id}'><i class='fa fa-edit' aria-hidden='true'></i></a> <a href='../post.php?p_id={$post_id}'>";
         excerpt($post_title, 15);
-        echo "</td>
+        echo "</a></td>
             <td>";
         excerpt($comment_content, 15);
         echo "</td>
@@ -291,7 +291,7 @@ function showAllComments()
             <td class='text-center'><a href='comments.php?c_id={$comment_id}&c_status=appr'><i class='fa fa-check' aria-hidden='true'></i></a></td>
             <td class='text-center'><a href='comments.php?c_id={$comment_id}&c_status=unappr'><i class='fa fa-ban' aria-hidden='true'></i></a></td>
             <td class='text-center'><a href='comments.php?source=edit_comment&c_id={$comment_id}'><i class='fa fa-edit' aria-hidden='true'></i></a></td>
-            <td class='text-center'><a href='comments.php?delete={$comment_id}'><i class='fa fa-trash' aria-hidden='true'></i></a></td>
+            <td class='text-center'><a href='comments.php?delete={$comment_id}&p_id={$comment_post_id}'><i class='fa fa-trash' aria-hidden='true'></i></a></td>
             </tr>";
 
     }
@@ -318,6 +318,10 @@ function addComment()
         }
         queryFailed($add_comment_query);
 
+        $count_query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = {$comment_post_id}";
+        $comment_count_query = mysqli_query($connection, $count_query);
+        queryFailed($comment_count_query);
+
     }
 }
 
@@ -326,8 +330,14 @@ function deleteComment()
     global $connection;
     if (isset($_GET['delete'])) {
         $del_comment_id = $_GET['delete'];
+        $comment_post_id = $_GET['p_id'];
         $query = "DELETE FROM comments WHERE comment_id LIKE {$del_comment_id}";
         $delete_query = mysqli_query($connection, $query);
+
+        $count_query = "UPDATE posts SET post_comment_count = post_comment_count - 1 WHERE post_id = {$comment_post_id}";
+        $comment_count_query = mysqli_query($connection, $count_query);
+        queryFailed($comment_count_query);
+
         header("Location: comments.php");
 
     }

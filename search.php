@@ -41,10 +41,7 @@
 
                         ?>
 
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
+            <?php if ($post_status == 'published') {?>
 
             <!-- Blog Post -->
             <h2>
@@ -68,7 +65,7 @@
                 <span class="glyphicon glyphicon-chevron-right"></span></a>
 
             <hr />
-            <?php }}}?>
+            <?php }}}}?>
 
 
         </div>
