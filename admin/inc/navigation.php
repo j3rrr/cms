@@ -25,7 +25,7 @@
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                    <a href="../inc/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                 </li>
             </ul>
         </li>
@@ -60,10 +60,10 @@
                     Users <i class="fa fa-fw fa-caret-down"></i></a>
                 <ul id="users" class="collapse">
                     <li>
-                        <a href="#">View all</a>
+                        <a href="users.php">View all</a>
                     </li>
                     <li>
-                        <a href="#">Add</a>
+                        <a href="users.php?source=add_user">Add</a>
                     </li>
                 </ul>
             </li>

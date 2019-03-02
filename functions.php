@@ -22,16 +22,16 @@ function getPostData()
 
         $row = mysqli_fetch_assoc($select_post_by_id);
         $post_info = array(
-            'post_id' => $row['post_id'],
-            'post_category_id' => $row['post_category_id'],
-            'post_title' => $row['post_title'],
-            'post_author' => $row['post_author'],
-            'post_date' => $row['post_date'],
-            'post_image' => $row['post_image'],
-            'post_content' => $row['post_content'],
-            'post_tag' => $row['post_tag'],
+            'post_id'            => $row['post_id'],
+            'post_category_id'   => $row['post_category_id'],
+            'post_title'         => $row['post_title'],
+            'post_author'        => $row['post_author'],
+            'post_date'          => $row['post_date'],
+            'post_image'         => $row['post_image'],
+            'post_content'       => $row['post_content'],
+            'post_tag'           => $row['post_tag'],
             'post_comment_count' => $row['post_comment_count'],
-            'post_status' => $row['post_status'],
+            'post_status'        => $row['post_status'],
         );
         return $post_info;
     }
@@ -59,7 +59,6 @@ function getCategories()
     }
 
     return $cat_info;
-
 }
 
 function getPostDataByCatID()
@@ -88,12 +87,12 @@ function createComment()
     global $connection;
 
     if (isset($_POST['create_comment'])) {
-        $post_id = $_GET['p_id'];
-        $comment_author = $_POST['comment_author'];
-        $comment_email = $_POST['comment_email'];
+        $post_id         = $_GET['p_id'];
+        $comment_author  = $_POST['comment_author'];
+        $comment_email   = $_POST['comment_email'];
         $comment_content = $_POST['comment_content'];
-        $comment_date = date('d-m-y');
-        $comment_status = "unapproved";
+        $comment_date    = date('d-m-y');
+        $comment_status  = "unapproved";
 
         $query = "INSERT INTO comments(comment_post_id,comment_author,comment_email,comment_content,comment_status,comment_date) ";
         $query .= "VALUES({$post_id},'{$comment_author}','{$comment_email}','{$comment_content}','{$comment_status}',now()) ";
@@ -107,7 +106,6 @@ function createComment()
         $count_query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = {$post_id}";
         $comment_count_query = mysqli_query($connection, $count_query);
         queryFailed($comment_count_query);
-
     }
 }
 
@@ -121,7 +119,8 @@ function getCommentsForPost()
         $select_comment_by_id = mysqli_query($connection, $query);
         $comment_info = array();
 
-        while ($row = mysqli_fetch_assoc($select_comment_by_id)) {;
+        while ($row = mysqli_fetch_assoc($select_comment_by_id)) {
+            ;
             $comment_info[] = $row;
         }
 

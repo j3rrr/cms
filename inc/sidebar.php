@@ -1,5 +1,5 @@
 <?php
-    $cat_data = getCategories();
+$cat_data = getCategories();
 ?>
 <div class="col-md-4">
 
@@ -19,6 +19,27 @@
         <!-- /.input-group -->
     </div>
 
+    <!-- Login Form Well -->
+    <div class="well">
+        <h4>Login</h4>
+        <?php
+        if (isset($_GET['l']) && $_GET['l'] == 'f') {
+            echo "<div class='alert alert-danger'>Login failed. Please try again.</div>";
+        }
+        ?>
+        <form action="inc/login.php" method="post">
+            <div class="form-group">
+                <input name="user_username" type="text" class="form-control" placeholder="Username" />
+            </div>
+            <div class="input-group">
+                <input name="user_password" type="password" class="form-control" placeholder="Password" />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" name="login" type="submit">Submit</button>
+                </span>
+            </div>
+        </form><!-- login form -->
+    </div>
+
     <!-- Blog Categories Well -->
     <div class="well">
         <h4>Blog Categories</h4>
@@ -27,9 +48,9 @@
                 <ul class="list-unstyled">
 
                     <?php
-                        foreach ($cat_data as $key => $val) {
-                            echo "<li><a href='category.php?c_id={$val['cat_id']}'>{$val['cat_title']}</a></li>";
-                        }
+                    foreach ($cat_data as $key => $val) {
+                        echo "<li><a href='category.php?c_id={$val['cat_id']}'>{$val['cat_title']}</a></li>";
+                    }
                     ?>
 
                 </ul>
@@ -42,5 +63,5 @@
     </div>
 
     <!-- Side Widget Well -->
-    <?php include "widget.php"?>
+    <?php include "widget.php" ?>
 </div>

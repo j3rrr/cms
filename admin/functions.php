@@ -71,7 +71,6 @@ function deleteCategoryQuery()
         $delete_query = mysqli_query($connection, $query);
         header("Location: categories.php");
     }
-
 }
 
 /**
@@ -84,16 +83,16 @@ function showAllPosts()
     $select_posts = mysqli_query($connection, $query);
 
     while ($row = mysqli_fetch_assoc($select_posts)) {
-        $post_id = $row['post_id'];
-        $post_category_id = $row['post_category_id'];
-        $post_title = $row['post_title'];
-        $post_author = $row['post_author'];
-        $post_date = $row['post_date'];
-        $post_image = $row['post_image'];
-        $post_content = $row['post_content'];
-        $post_tag = $row['post_tag'];
+        $post_id            = $row['post_id'];
+        $post_category_id   = $row['post_category_id'];
+        $post_title         = $row['post_title'];
+        $post_author        = $row['post_author'];
+        $post_date          = $row['post_date'];
+        $post_image         = $row['post_image'];
+        $post_content       = $row['post_content'];
+        $post_tag           = $row['post_tag'];
         $post_comment_count = $row['post_comment_count'];
-        $post_status = $row['post_status'];
+        $post_status        = $row['post_status'];
 
         if ($post_status == "published") {
             $status_class = "label-success";
@@ -134,17 +133,17 @@ function addPost()
     global $connection;
 
     if (isset($_POST['add_post'])) {
-        $post_title = $_POST['post_title'];
+        $post_title       = $_POST['post_title'];
         $post_category_id = $_POST['post_category_id'];
-        $post_author = $_POST['post_author'];
-        $post_status = $_POST['post_status'];
+        $post_author      = $_POST['post_author'];
+        $post_status      = $_POST['post_status'];
 
-        $post_image = $_FILES['post_image']['name'];
+        $post_image      = $_FILES['post_image']['name'];
         $post_image_temp = $_FILES['post_image']['tmp_name'];
 
-        $post_tag = $_POST['post_tag'];
-        $post_content = $_POST['post_content'];
-        $post_date = date('d-m-y');
+        $post_tag           = $_POST['post_tag'];
+        $post_content       = $_POST['post_content'];
+        $post_date          = date('d-m-y');
         $post_comment_count = 4;
 
         move_uploaded_file($post_image_temp, "../img/$post_image");
@@ -157,7 +156,6 @@ function addPost()
             echo "<div class='alert alert-success'>Successfully added Post</div>";
         }
         queryFailed($add_post_query);
-
     }
 }
 
@@ -169,7 +167,6 @@ function deletePost()
         $query = "DELETE FROM posts WHERE post_id LIKE {$del_post_id}";
         $delete_query = mysqli_query($connection, $query);
         header("Location: posts.php");
-
     }
 }
 
@@ -184,35 +181,34 @@ function getPostData()
 
         $row = mysqli_fetch_assoc($select_post_by_id);
         $post_info = array(
-            'post_id' => $row['post_id'],
-            'post_category_id' => $row['post_category_id'],
-            'post_title' => $row['post_title'],
-            'post_author' => $row['post_author'],
-            'post_date' => $row['post_date'],
-            'post_image' => $row['post_image'],
-            'post_content' => $row['post_content'],
-            'post_tag' => $row['post_tag'],
+            'post_id'            => $row['post_id'],
+            'post_category_id'   => $row['post_category_id'],
+            'post_title'         => $row['post_title'],
+            'post_author'        => $row['post_author'],
+            'post_date'          => $row['post_date'],
+            'post_image'         => $row['post_image'],
+            'post_content'       => $row['post_content'],
+            'post_tag'           => $row['post_tag'],
             'post_comment_count' => $row['post_comment_count'],
-            'post_status' => $row['post_status'],
+            'post_status'        => $row['post_status'],
         );
 
         return $post_info;
     }
-
 }
 
 function submitEditPost()
 {
     global $connection;
     $post_category_id = $_POST['post_category_id'];
-    $post_title = $_POST['post_title'];
-    $post_author = $_POST['post_author'];
-    $post_image = $_FILES['post_image']['name'];
-    $post_image_temp = $_FILES['post_image']['tmp_name'];
-    $post_content = $_POST['post_content'];
-    $post_tag = $_POST['post_tag'];
-    $post_status = $_POST['post_status'];
-    $post_id = $_GET['p_id'];
+    $post_title       = $_POST['post_title'];
+    $post_author      = $_POST['post_author'];
+    $post_image       = $_FILES['post_image']['name'];
+    $post_image_temp  = $_FILES['post_image']['tmp_name'];
+    $post_content     = $_POST['post_content'];
+    $post_tag         = $_POST['post_tag'];
+    $post_status      = $_POST['post_status'];
+    $post_id          = $_GET['p_id'];
 
     move_uploaded_file($post_image_temp, "../img/$post_image");
 
@@ -251,13 +247,13 @@ function showAllComments()
     $select_comments = mysqli_query($connection, $query);
 
     while ($row = mysqli_fetch_assoc($select_comments)) {
-        $comment_id = $row['comment_id'];
+        $comment_id      = $row['comment_id'];
         $comment_post_id = $row['comment_post_id'];
-        $comment_author = $row['comment_author'];
-        $comment_date = $row['comment_date'];
-        $comment_email = $row['comment_email'];
+        $comment_author  = $row['comment_author'];
+        $comment_date    = $row['comment_date'];
+        $comment_email   = $row['comment_email'];
         $comment_content = $row['comment_content'];
-        $comment_status = $row['comment_status'];
+        $comment_status  = $row['comment_status'];
 
         if ($comment_status == "approved") {
             $status_class = "label-success";
@@ -293,7 +289,6 @@ function showAllComments()
             <td class='text-center'><a href='comments.php?source=edit_comment&c_id={$comment_id}'><i class='fa fa-edit' aria-hidden='true'></i></a></td>
             <td class='text-center'><a href='comments.php?delete={$comment_id}&p_id={$comment_post_id}'><i class='fa fa-trash' aria-hidden='true'></i></a></td>
             </tr>";
-
     }
 }
 
@@ -303,11 +298,11 @@ function addComment()
 
     if (isset($_POST['add_comment'])) {
         $comment_post_id = $_POST['comment_post_id'];
-        $comment_author = $_POST['comment_author'];
-        $comment_date = date('d-m-y');
-        $comment_email = $_POST['comment_email'];
+        $comment_author  = $_POST['comment_author'];
+        $comment_date    = date('d-m-y');
+        $comment_email   = $_POST['comment_email'];
         $comment_content = $_POST['comment_content'];
-        $comment_status = $_POST['comment_status'];
+        $comment_status  = $_POST['comment_status'];
 
         $query = "INSERT INTO comments(comment_post_id,comment_author,comment_email,comment_content,comment_status,comment_date) ";
         $query .= "VALUES({$comment_post_id},'{$comment_author}','{$comment_email}','{$comment_content}','{$comment_status}',now()) ";
@@ -321,7 +316,6 @@ function addComment()
         $count_query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = {$comment_post_id}";
         $comment_count_query = mysqli_query($connection, $count_query);
         queryFailed($comment_count_query);
-
     }
 }
 
@@ -339,7 +333,6 @@ function deleteComment()
         queryFailed($comment_count_query);
 
         header("Location: comments.php");
-
     }
 }
 
@@ -358,9 +351,7 @@ function updateCommentStatus()
         $update_query = mysqli_query($connection, $query);
         queryFailed($update_query);
         header("Location: comments.php");
-
     }
-
 }
 
 function getCommentData()
@@ -374,12 +365,12 @@ function getCommentData()
 
         $row = mysqli_fetch_assoc($select_comment_by_id);
         $comment_info = array(
-            'comment_id' => $row['comment_id'],
-            'comment_author' => $row['comment_author'],
-            'comment_email' => $row['comment_email'],
+            'comment_id'      => $row['comment_id'],
+            'comment_author'  => $row['comment_author'],
+            'comment_email'   => $row['comment_email'],
             'comment_post_id' => $row['comment_post_id'],
-            'comment_date' => $row['comment_date'],
-            'comment_status' => $row['comment_status'],
+            'comment_date'    => $row['comment_date'],
+            'comment_status'  => $row['comment_status'],
             'comment_content' => $row['comment_content'],
         );
 
@@ -390,12 +381,12 @@ function getCommentData()
 function submitEditComment()
 {
     global $connection;
-    $comment_author = $_POST['comment_author'];
-    $comment_email = $_POST['comment_email'];
+    $comment_author  = $_POST['comment_author'];
+    $comment_email   = $_POST['comment_email'];
     $comment_post_id = $_POST['comment_post_id'];
-    $comment_status = $_POST['comment_status'];
+    $comment_status  = $_POST['comment_status'];
     $comment_content = $_POST['comment_content'];
-    $comment_id = $_GET['c_id'];
+    $comment_id      = $_GET['c_id'];
 
     $query = "UPDATE comments SET ";
     $query .= "comment_author  = '{$comment_author}', ";
@@ -413,4 +404,147 @@ function submitEditComment()
     }
 
     queryFailed($edit_comment);
+}
+
+/**
+ * USER Functions
+ */
+function showAllUsers()
+{
+    global $connection;
+    $query = "SELECT * FROM users";
+    $select_users = mysqli_query($connection, $query);
+
+    while ($row = mysqli_fetch_assoc($select_users)) {
+        $user_id        = $row['user_id'];
+        $user_username  = $row['user_username'];
+        $user_firstname = $row['user_firstname'];
+        $user_lastname  = $row['user_lastname'];
+        $user_email     = $row['user_email'];
+        $user_image     = $row['user_image'];
+        $user_role      = $row['user_role'];
+        //$user_date = $row['user_date'];
+
+        echo "<tr>
+        <td>{$user_id}</td>
+        <td>{$user_username}</td>
+        <td>{$user_firstname}</td>
+        <td>{$user_lastname}</td>
+        <td>{$user_email}</td>
+        <td>{$user_role}</td>
+        <td><img width='30px' src='../img/user/{$user_image}'></td>
+        <td><a href='users.php?source=edit_user&u_id={$user_id}'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a></td>
+        <td><a href='users.php?delete={$user_id}'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>
+
+        </tr>";
+        /**
+         * <td>{$user_date}</td>
+
+         */
+    }
+}
+
+function addUser()
+{
+    global $connection;
+
+    if (isset($_POST['add_user'])) {
+        $user_username   = $_POST['user_username'];
+        $user_password   = $_POST['user_password'];
+        $user_firstname  = $_POST['user_firstname'];
+        $user_lastname   = $_POST['user_lastname'];
+        $user_email      = $_POST['user_email'];
+        $user_role       = $_POST['user_role'];
+        $user_image      = $_FILES['user_image']['name'];
+        $user_image_temp = $_FILES['user_image']['tmp_name'];
+
+        move_uploaded_file($user_image_temp, "../img/user/$user_image");
+
+        $query = "INSERT INTO users(user_username,user_password,user_firstname,user_lastname,user_email,user_role,user_image) ";
+        $query .= "VALUES('{$user_username}','{$user_password}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_role}','{$user_image}') ";
+
+        $add_user_query = mysqli_query($connection, $query);
+        if ($add_user_query) {
+            echo "<div class='alert alert-success'>Successfully added User</div>";
+        }
+        queryFailed($add_user_query);
+    }
+}
+
+function deleteUser()
+{
+    global $connection;
+    if (isset($_GET['delete'])) {
+        $del_user_id = $_GET['delete'];
+        $query = "DELETE FROM users WHERE user_id LIKE {$del_user_id}";
+        $delete_query = mysqli_query($connection, $query);
+        header("Location: users.php");
+    }
+}
+
+function getUserData()
+{
+    global $connection;
+    if (isset($_GET['u_id'])) {
+        $edit_user_id = $_GET['u_id'];
+
+        $query = "SELECT * FROM users WHERE user_id LIKE {$edit_user_id}";
+        $select_user_by_id = mysqli_query($connection, $query);
+
+        $row = mysqli_fetch_assoc($select_user_by_id);
+        $user_info = array(
+            'user_id'        => $row['user_id'],
+            'user_username'  => $row['user_username'],
+            'user_password'  => $row['user_password'],
+            'user_firstname' => $row['user_firstname'],
+            'user_lastname'  => $row['user_lastname'],
+            'user_email'     => $row['user_email'],
+            'user_role'      => $row['user_role'],
+            'user_image'     => $row['user_image'],
+        );
+
+        return $user_info;
+    }
+}
+
+function submitEditUser()
+{
+    global $connection;
+    $user_username   = $_POST['user_username'];
+    $user_password   = $_POST['user_password'];
+    $user_firstname  = $_POST['user_firstname'];
+    $user_lastname   = $_POST['user_lastname'];
+    $user_email      = $_POST['user_email'];
+    $user_role       = $_POST['user_role'];
+    $user_image      = $_FILES['user_image']['name'];
+    $user_image_temp = $_FILES['user_image']['tmp_name'];
+
+    $user_id = $_GET['u_id'];
+
+    move_uploaded_file($user_image_temp, "../img/user/$user_image");
+
+    if (empty($user_image)) {
+        $query = "SELECT * FROM users WHERE user_id LIKE $user_id ";
+        $select_image = mysqli_query($connection, $query);
+        while ($row = mysqli_fetch_array($select_image)) {
+            $user_image = $row['user_image'];
+        }
+    }
+
+    $query = "UPDATE users SET ";
+    $query .= "user_username  = '{$user_username}', ";
+    $query .= "user_password  = '{$user_password}', ";
+    $query .= "user_firstname  = '{$user_firstname}', ";
+    $query .= "user_lastname  = '{$user_lastname}', ";
+    $query .= "user_email  = '{$user_email}', ";
+    $query .= "user_role  = '{$user_role}', ";
+    $query .= "user_image  = '{$user_image}' ";
+    $query .= "WHERE user_id = {$user_id} ";
+
+    $edit_user = mysqli_query($connection, $query);
+    queryFailed($edit_user);
+    header("Location: users.php?source=edit_user&u_id=$user_id&update=s");
+    if (!$edit_user) {
+        echo $query;
+    }
 }

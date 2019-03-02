@@ -1,7 +1,14 @@
 <?php
-    include_once "../inc/db.php";
-    include_once "functions.php";
-    ob_start();
+include_once "../inc/db.php";
+include_once "functions.php";
+ob_start();
+session_start();
+
+if (!isset($_SESSION['role'])) {
+    header("Location: ../index.php");
+} elseif ($_SESSION['role'] !== 'admin') {
+    header("Location: ../index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

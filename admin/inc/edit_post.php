@@ -1,17 +1,17 @@
 <?php
 
-    $post_data = getPostData();
+$post_data = getPostData();
 
-    if (isset($_POST['edit_post'])) {
-        submitEditPost();
-    }
+if (isset($_POST['edit_post'])) {
+    submitEditPost();
+}
 
 ?>
 <p><a class="btn btn-primary" href="posts.php" role="button">Back</a></p>
 <?php
-    if (isset($_GET['update']) && $_GET['update'] == 's') {
-        echo "<div class='alert alert-success'>Successfully updated Post</div>";
-    }
+if (isset($_GET['update']) && $_GET['update'] == 's') {
+    echo "<div class='alert alert-success'>Successfully updated Post</div>";
+}
 ?>
 
 
@@ -25,17 +25,17 @@
         <label for="post_category_id">Category</label>
         <select name="post_category_id" class="form-control">
             <?php
-                $query = "SELECT * FROM categories";
-                $select_categories = mysqli_query($connection, $query);
+            $query = "SELECT * FROM categories";
+            $select_categories = mysqli_query($connection, $query);
 
-                while ($row = mysqli_fetch_assoc($select_categories)) {
-                    $cat_id = $row['cat_id'];
-                    $cat_title = $row['cat_title'];
+            while ($row = mysqli_fetch_assoc($select_categories)) {
+                $cat_id = $row['cat_id'];
+                $cat_title = $row['cat_title'];
 
-                    echo "<option value='{$cat_id}'>{$cat_title}</option>";
-                }
+                echo "<option value='{$cat_id}'>{$cat_title}</option>";
+            }
 
-                queryFailed($select_categories);
+            queryFailed($select_categories);
 
             ?>
 
