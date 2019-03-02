@@ -1,17 +1,17 @@
 <?php
 
-    $user_data = getUserData();
+$user_data = getUserData();
 
-    if (isset($_POST['edit_user'])) {
-        submitEditUser();
-    }
+if (isset($_POST['edit_user'])) {
+    submitEditUser();
+}
 
 ?>
 <p><a class="btn btn-primary" href="users.php" role="button">Back</a></p>
 <?php
-    if (isset($_GET['update']) && $_GET['update'] == 's') {
-        echo "<div class='alert alert-success'>Successfully updated User</div>";
-    }
+if (isset($_GET['update']) && $_GET['update'] == 's') {
+    echo "<div class='alert alert-success'>Successfully updated User</div>";
+}
 ?>
 
 
@@ -42,11 +42,22 @@
     </div>
     <div class="form-group">
         <label for="user_role">Role</label>
-        <span>from: <?php echo $user_data['user_role']; ?> to</span>
+        <span>from:
+            <?php echo $user_data['user_role']; ?> to</span>
         <select name="user_role">
-            <option value="Subscriber">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="subscriber">Subscriber</option>
+            <?php
+            if ($user_data['user_role'] == 'admin') {
+                echo "
+                    <option value='admin'>Admin</option>
+                    <option value='subscriber'>Subscriber</option>
+                    ";
+            } elseif ($user_data['user_role'] == 'subscriber') {
+                echo "
+                    <option value='subscriber'>Subscriber</option>
+                    <option value='admin'>Admin</option>
+                    ";
+            }
+            ?>
         </select>
     </div>
     <div class="form-group">

@@ -548,3 +548,45 @@ function submitEditUser()
         echo $query;
     }
 }
+
+function submitEditProfile()
+{
+    global $connection;
+    $user_username   = $_POST['user_username'];
+    $user_password   = $_POST['user_password'];
+    $user_firstname  = $_POST['user_firstname'];
+    $user_lastname   = $_POST['user_lastname'];
+    $user_email      = $_POST['user_email'];
+    $user_role       = $_POST['user_role'];
+    $user_image      = $_FILES['user_image']['name'];
+    $user_image_temp = $_FILES['user_image']['tmp_name'];
+
+    $user_id = $_GET['u_id'];
+
+    move_uploaded_file($user_image_temp, "../img/user/$user_image");
+
+    if (empty($user_image)) {
+        $query = "SELECT * FROM users WHERE user_id LIKE $user_id ";
+        $select_image = mysqli_query($connection, $query);
+        while ($row = mysqli_fetch_array($select_image)) {
+            $user_image = $row['user_image'];
+        }
+    }
+
+    $query = "UPDATE users SET ";
+    $query .= "user_username  = '{$user_username}', ";
+    $query .= "user_password  = '{$user_password}', ";
+    $query .= "user_firstname  = '{$user_firstname}', ";
+    $query .= "user_lastname  = '{$user_lastname}', ";
+    $query .= "user_email  = '{$user_email}', ";
+    $query .= "user_role  = '{$user_role}', ";
+    $query .= "user_image  = '{$user_image}' ";
+    $query .= "WHERE user_id = {$user_id} ";
+
+    $edit_user = mysqli_query($connection, $query);
+    queryFailed($edit_user);
+    header("Location: profile.php?source=profile&u_id=$user_id&update=s");
+    if (!$edit_user) {
+        echo $query;
+    }
+}
