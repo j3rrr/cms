@@ -40,7 +40,6 @@ if (isset($_GET['update']) && $_GET['update'] == 's') {
             ?>
 
         </select>
-
     </div>
     <div class="form-group">
         <label for="post_author">Author</label>
@@ -48,10 +47,17 @@ if (isset($_GET['update']) && $_GET['update'] == 's') {
             name="post_author">
     </div>
     <div class="form-group">
+        <span class=""><?php echo ucfirst($post_data['post_status']); ?></span>
         <select name="post_status" id="">
-            <option value="draft">Post Status</option>
-            <option value="published">Published</option>
-            <option value="draft">Draft</option>
+            <option value="<?php echo $post_data['post_status']; ?>">Post Status</option>
+            <?php
+            if ($post_data['post_status'] == 'published') {
+                echo "<option value='draft'>Draft</option>";
+            } else {
+                echo "<option value='published'>Published</option>";
+            }
+            ?>
+
         </select>
     </div>
     <div class="form-group">
@@ -65,7 +71,7 @@ if (isset($_GET['update']) && $_GET['update'] == 's') {
     </div>
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea class="form-control " name="post_content" id="" cols="30"
+        <textarea class="form-control " name="post_content" id="editor" cols="30"
             rows="10"><?php echo $post_data['post_content']; ?></textarea>
     </div>
     <div class="form-group">

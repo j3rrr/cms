@@ -56,7 +56,7 @@
     </div>
     <div class="form-group">
         <label for="comment_content">Comment Content</label>
-        <textarea class="form-control " name="comment_content" id="" cols="30"
+        <textarea class="form-control " name="comment_content" id="editor" cols="30"
             rows="10"><?php echo $comment_data['comment_content']; ?></textarea>
     </div>
     <div class="form-group">

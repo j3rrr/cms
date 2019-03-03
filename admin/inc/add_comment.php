@@ -40,7 +40,7 @@
     </div>
     <div class="form-group">
         <label for="comment_content">Comment Content</label>
-        <textarea class="form-control " name="comment_content" id="" cols="30" rows="10"></textarea>
+        <textarea class="form-control " name="comment_content" id="editor" cols="30" rows="10"></textarea>
     </div>
     <div class="form-group">
         <input class="btn btn-primary" type="submit" name="add_comment" value="Add Comment">
