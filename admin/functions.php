@@ -120,6 +120,7 @@ function showAllPosts()
         }
 
         echo "<tr>
+        <td><input type='checkbox' class='checkBoxes' name='checkBoxArray[]' value='{$post_id}'></td>
         <td>{$post_id}</td>
         <td>{$post_title}</td>
         <td>{$post_author}</td>
@@ -141,6 +142,7 @@ function showAllPosts()
         <td>{$post_comment_count}</td>
         <td><img width='100px' src='../img/{$post_image}'></td>
         <td class='text-center'><span  class='label {$status_class}'>{$post_status}</span></td>
+        <td><a href='../post.php?p_id={$post_id}'><i class='fa fa-eye' aria-hidden='true'></i></a></td>
         <td><a href='posts.php?source=edit_post&p_id={$post_id}'><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a></td>
         <td><a href='posts.php?delete={$post_id}'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td>
         </tr>";
@@ -254,6 +256,36 @@ function submitEditPost()
     header("Location: posts.php?source=edit_post&p_id=$post_id&update=s");
 
     queryFailed($edit_post);
+}
+
+function bulkOptions()
+{
+    global $connection;
+    if (isset($_POST['checkBoxArray'])) {
+        foreach ($_POST['checkBoxArray'] as $postValueId) {
+            $bulk_options = $_POST['bulk_options'];
+            switch ($bulk_options) {
+                case 'published':
+                    $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id LIKE {$postValueId} ";
+                    $update_to_published_status = mysqli_multi_query($connection, $query);
+                    queryFailed($update_to_published_status);
+                    break;
+                case 'draft':
+                    $query = "UPDATE posts SET post_status = '{$bulk_options}' WHERE post_id LIKE {$postValueId} ";
+                    $update_to_draft_status = mysqli_multi_query($connection, $query);
+                    queryFailed($update_to_draft_status);
+                    break;
+                case 'delete':
+                    $query = "DELETE FROM posts WHERE post_id LIKE {$postValueId} ";
+                    $update_delete = mysqli_multi_query($connection, $query);
+                    queryFailed($update_delete);
+                    break;
+                default:
+                    echo "Select Option";
+                    break;
+            }
+        }
+    }
 }
 
 /**
