@@ -17,6 +17,25 @@ function excerpt($string, $len)
     }
 }
 
+function countDbRows($dbname)
+{
+    global $connection;
+    $query = "SELECT * FROM $dbname";
+    $count_query = mysqli_query($connection, $query);
+    $count = mysqli_num_rows($count_query);
+    return $count;
+}
+
+function countDbRowsCondition($dbname, $column, $value)
+{
+    global $connection;
+    $query = "SELECT * FROM $dbname WHERE $column = '$value'";
+    $count_query = mysqli_query($connection, $query);
+    $count = mysqli_num_rows($count_query);
+    return $count;
+}
+
+
 /**
  * CATEGORY Functions
  */
