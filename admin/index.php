@@ -17,7 +17,6 @@ include "inc/header.php";
 
             </div>
         </div><!-- /.row -->
-
         <div class="row">
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-primary">

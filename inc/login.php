@@ -24,6 +24,7 @@ while ($row = mysqli_fetch_array($select_user_query)) {
     $db_user_password = $row['user_password'];
 }
 
+$sent_user_password = crypt($sent_user_password, $db_user_password);
 
 if ($sent_user_username === $db_user_username && $sent_user_password === $db_user_password) {
     $_SESSION['username'] = $db_user_username;

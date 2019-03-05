@@ -543,6 +543,7 @@ function getUserData()
         $select_user_by_id = mysqli_query($connection, $query);
 
         $row = mysqli_fetch_assoc($select_user_by_id);
+        
         $user_info = array(
             'user_id'        => $row['user_id'],
             'user_username'  => $row['user_username'],
@@ -582,9 +583,16 @@ function submitEditUser()
         }
     }
 
+    $query = "SELECT user_randSalt FROM users";
+    $select_randsalt_query = mysqli_query($connection, $query);
+    queryFailed($select_randsalt_query);
+    $row = mysqli_fetch_array($select_randsalt_query);
+    $salt = $row['user_randSalt'];
+    $hashed_pw = crypt($user_password, $salt);
+
     $query = "UPDATE users SET ";
     $query .= "user_username  = '{$user_username}', ";
-    $query .= "user_password  = '{$user_password}', ";
+    $query .= "user_password  = '{$hashed_pw}', ";
     $query .= "user_firstname  = '{$user_firstname}', ";
     $query .= "user_lastname  = '{$user_lastname}', ";
     $query .= "user_email  = '{$user_email}', ";
