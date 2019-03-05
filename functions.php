@@ -133,3 +133,35 @@ function getCommentsForPost()
         return $comment_info;
     }
 }
+
+/**
+ * USER Registration
+ */
+
+function submitRegUser()
+{
+    global $connection;
+    $user_username = $_POST['user_username'];
+    $user_email    = $_POST['user_email'];
+    $user_password = $_POST['user_password'];
+
+    
+    $user_username = mysqli_real_escape_string($connection, $user_username);
+    $user_email    = mysqli_real_escape_string($connection, $user_email);
+    $user_password = mysqli_real_escape_string($connection, $user_password);
+
+    $query = "SELECT user_randSalt from users";
+    $select_randsalt_query = mysqli_query($connection, $query);
+    queryFailed($select_randsalt_query);
+
+    $row = mysqli_fetch_array($select_randsalt_query);
+    $salt = $row['user_randSalt'];
+
+    $user_password = crypt($user_password, $salt);
+
+    $query = "INSERT INTO users (user_username, user_email, user_password, user_role) ";
+    $query .= "VALUES('{$user_username}', '{$user_email}', '{$user_password}', 'subscriber')";
+    $query;
+    $register_user_query = mysqli_query($connection, $query);
+    queryfailed($register_user_query);
+}
